@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Picgeon</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="grid">
+      {{range .}}
+        <a href="{{.URL}}" target="_blank">
+            <img src="{{.ThumbURL}}" alt="{{.Name}}">
+        </a>
+      {{end}}
+    </div>
+</body>
+</html>

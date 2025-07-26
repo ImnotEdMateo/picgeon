@@ -1,15 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
-)
 
-func nigga(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Vos sos un prbo hpta")
-}
+	"picgeon/handlers"
+)
 
 func main() {
 	port := os.Getenv("PICGEON_PORT")
@@ -19,6 +16,7 @@ func main() {
 
 	log.Printf("Running server on  http://0.0.0.0:%s", port)
 
-	http.HandleFunc("/", nigga)
+	http.HandleFunc("/", handlers.GalleryHandler)
+	http.Handle("/thumbs/", http.StripPrefix("/thumbs/", http.FileServer(http.Dir("thumbs"))))
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
