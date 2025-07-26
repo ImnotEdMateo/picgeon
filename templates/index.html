@@ -1,18 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Picgeon</title>
+  <meta charset="UTF-8">
+  <title>Picgeon</title>
     <style>
-    </style>
+  .masonry {
+    column-width: 300px;
+    column-gap: 10px;
+    padding: 10px;
+  }
+
+  .masonry a {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .masonry img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+</style>
 </head>
 <body>
-    <div class="grid">
-      {{range .}}
-        <a href="{{.URL}}" target="_blank">
-            <img src="{{.ThumbURL}}" alt="{{.Name}}">
-        </a>
-      {{end}}
-    </div>
+  <div class="masonry">
+    {{range .}}
+      <a href="{{.URL}}" target="_blank">
+        <img src="{{.ThumbURL}}" alt="{{.Name}}">
+      </a>
+    {{end}}
+  </div>
+
+  <script>
+    function sendHeight() {
+      const height = document.body.scrollHeight;
+      parent.postMessage({ type: "resize", height }, "*");
+    }
+
+    window.addEventListener("load", sendHeight);
+
+    // Por si el contenido cambia dinámicamente (resize, imágenes, etc.)
+    new ResizeObserver(sendHeight).observe(document.body);
+  </script>
 </body>
 </html>

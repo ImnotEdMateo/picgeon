@@ -37,7 +37,7 @@ func ParseLinks(body io.Reader, baseURL string) ([]Media, error) {
 						}
 
 						lower := strings.ToLower(href)
-						isVideo = strings.HasSuffix(lower, ".mp4") || strings.HasSuffix(lower, ".webm")
+						isVideo = strings.HasSuffix(lower, ".mp4") || strings.HasSuffix(lower, ".webm") || strings.HasSuffix(lower, ".gif")
 						isImage = strings.HasSuffix(lower, ".jpg") || strings.HasSuffix(lower, ".jpeg") || strings.HasSuffix(lower, ".png")
 					}
 				}
