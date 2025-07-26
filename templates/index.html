@@ -34,16 +34,17 @@
 
 
   <script>
-  function sendHeight() {
+    function sendHeight() {
       const height = document.documentElement.scrollHeight;
-      parent.postMessage({ type: "resize", height }, "https://edmateo.site"); // cambia al origen real
+
+      if (window.parent !== window) {
+        parent.postMessage({ type: "resize", height }, "https://edmateo.site");
+      }
     }
 
     window.addEventListener("load", sendHeight);
 
-    new ResizeObserver(() => {
-      sendHeight();
-    }).observe(document.documentElement);
+    new ResizeObserver(sendHeight).observe(document.documentElement);
   </script>
 </body>
 </html>
