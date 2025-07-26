@@ -32,16 +32,18 @@
     {{end}}
   </div>
 
+
   <script>
-    function sendHeight() {
-      const height = document.body.scrollHeight;
-      parent.postMessage({ type: "resize", height }, "*");
+  function sendHeight() {
+      const height = document.documentElement.scrollHeight;
+      parent.postMessage({ type: "resize", height }, "https://edmateo.site"); // cambia al origen real
     }
 
     window.addEventListener("load", sendHeight);
 
-    // Por si el contenido cambia dinámicamente (resize, imágenes, etc.)
-    new ResizeObserver(sendHeight).observe(document.body);
+    new ResizeObserver(() => {
+      sendHeight();
+    }).observe(document.documentElement);
   </script>
 </body>
 </html>
