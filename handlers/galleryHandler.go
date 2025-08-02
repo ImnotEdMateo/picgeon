@@ -9,9 +9,9 @@ import (
 )
 
 func GalleryHandler(w http.ResponseWriter, r *http.Request) {
-	var baseURL = os.Getenv("BASE_URL")
+	var baseURL = os.Getenv("PICGEON_URL")
 	if baseURL == "" {
-		http.Error(w, "BASE_URL not set", http.StatusInternalServerError)
+		http.Error(w, "PICGEON_URL not set", http.StatusInternalServerError)
 		return
 	}
 

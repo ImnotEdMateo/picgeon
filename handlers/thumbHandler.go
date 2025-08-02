@@ -11,11 +11,11 @@ import (
 )
 
 func ThumbHandler(w http.ResponseWriter, r *http.Request) {
-	name := filepath.Base(r.URL.Path) // seguridad básica
+	name := filepath.Base(r.URL.Path)
 	originalName := strings.TrimSuffix(name, ".jpg")
-	baseURL := os.Getenv("BASE_URL")
+	baseURL := os.Getenv("PICGEON_URL")
 	if baseURL == "" {
-		http.Error(w, "BASE_URL not set", 500)
+		http.Error(w, "PICGEON_URL not set", 500)
 		return
 	}
 

@@ -18,7 +18,7 @@ go run main.go
 ```
 
 > [!NOTE]
-> Make sure that `BASE_URL` and `PICGEON_PORT` are defined.
+> Make sure that `PICGEON_URL` and `PICGEON_PORT` are defined.
 
 ## TO-DO 
 
