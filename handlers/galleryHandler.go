@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"picgeon/utils"
+	"picgeon/utils/scanning"
 )
 
 func GalleryHandler(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +22,7 @@ func GalleryHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
-	media, err := utils.ParseLinks(resp.Body, baseURL)
+	media, err := scanning.ParseLinks(resp.Body, baseURL)
 	if err != nil {
   	http.Error(w, "Can't parse index", 500)
     return
