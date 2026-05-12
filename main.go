@@ -4,19 +4,40 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"picgeon/handlers"
+	"picgeon/utils/scanning"
+	"picgeon/store"
 )
 
 func main() {
 	port := os.Getenv("PICGEON_PORT")
 	if port == "" {
-		log.Fatal("Port is not defined")
+		log.Fatal("PICGEON_PORT not set")
 	}
 
-	log.Printf("Running server on  http://0.0.0.0:%s", port)
+	// inicializar scanner según entorno
+	var scanner scanning.Scanner
+	if dir := os.Getenv("PICGEON_LOCAL_DIR"); dir != "" {
+		scanner = &scanning.LocalScanner{
+			Dir:     dir,
+			BaseURL: os.Getenv("PICGEON_URL"),
+		}
+	} else {
+		scanner = &scanning.HTTPScanner{
+			BaseURL: os.Getenv("PICGEON_URL"),
+		}
+	}
 
-	http.HandleFunc("/", handlers.GalleryHandler)
-	http.Handle("/thumbs/", http.StripPrefix("/thumbs/", http.FileServer(http.Dir("thumbs"))))
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	store.Default = store.NewStore(scanner, 5*time.Minute)
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("GET /api/gallery", handlers.GalleryHandler)
+	mux.Handle("GET /thumbs/", handlers.ThumbsHandler)
+	mux.Handle("GET /images/", handlers.ImagesHandler)
+
+	log.Printf("Listening on :%s", port)
+	log.Fatal(http.ListenAndServe(":"+port, mux))
 }
